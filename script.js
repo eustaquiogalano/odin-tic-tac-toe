@@ -1,12 +1,22 @@
-function Gameboard() {
-    const row = 3;
-    const column = 3;
-    const board =  [];
+// This function is responsible for the states of the board
+// also responsible for setting up the board at initial state
+// where no marks are placed yet, also responsible for
+// dropping or placing a mark on a cell
+// and printing the board after each player's turn
+// on marking a cell.
 
+function Gameboard() {
+
+    // Tic Tac Toe is playable in a 3x3 grid.
+    const row = 3;
+    const column  = 3;
+    const board = [];
+
+    // This will create a 2d array for the 3x3 grid cell
     for (let r = 0; r < row; r++) {
         board[r] = [];
         for (let c = 0; c < column; c++) {
-            board[r].push(Cell()); 
+            board[r].push("PLAYER's MARK");
         }
     }
 
@@ -15,26 +25,18 @@ function Gameboard() {
     }
 }
 
+// This function is responsible for rendering the game 
+// for now in the console
+// but once the script is all set
+// we will move the rendering on its own UI
 
-function Cell() {
-    let value = 0;
+function renderGameOnScreen() {
 
-    // Accept a player's token to change the value of the cell
-    const addMark = (player) => {
-        value = player;
-    };
+    const boardState = Gameboard()
 
-    // How we will retrieve the current value of this cell through closure
-    const getValue = () => value;
-
-    return {
-        addMark,
-        getValue
-    };
+    // for now console is our UI
+    console.log( boardState.board );
+    
 }
 
-
-const game = Gameboard();
-
-console.log( game.board );
-
+renderGameOnScreen();
