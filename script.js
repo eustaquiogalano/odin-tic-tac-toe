@@ -16,7 +16,7 @@ function Gameboard() {
     for (let r = 0; r < row; r++) {
         board[r] = [];
         for (let c = 0; c < column; c++) {
-            board[r].push("PLAYER's MARK");
+            board[r].push();
         }
     }
 
@@ -24,6 +24,33 @@ function Gameboard() {
         board,
     }
 }
+
+
+
+// This function is responsible for the flow of the game.
+//  
+
+function GameController(
+    playerX = "Player X",
+    playerO = "PLayer O"
+) {
+    const players = [
+        {
+            name: playerX,
+            mark: "X"
+        },
+        {
+            name: playerO,
+            mark: "O"
+        }        
+    ];
+
+    return {
+        
+    }
+}
+
+
 
 // This function is responsible for rendering the game 
 // for now in the console
@@ -35,6 +62,8 @@ function renderGameOnScreen() {
     const boardState = Gameboard()
 
     // for now console is our UI
+    // but once the script is good to go we will transfer to 
+    // the DOM
     console.log( boardState.board );
     
 }
