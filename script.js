@@ -30,14 +30,9 @@ function Gameboard() {
             return row.map((cell) => cell.getValue())
         });
         console.log( boardWithCellValues );
-        
-    }
+    };
 
-
-    return {
-        getBoard,
-        printBoard
-    }
+    return { getBoard, printBoard };
 }
 
 
@@ -51,13 +46,9 @@ function Cell() {
 
     const addMark = (playerMark) => {
         value = playerMark;
-    }
+    };
 
-
-    return {
-        getValue,
-        addMark
-    }
+    return { getValue, addMark };
 }
 
 
@@ -80,9 +71,7 @@ function GameController(
         }
     ];
 
-    return {
-
-    }
+    return { };
 }
 
 
