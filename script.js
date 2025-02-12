@@ -23,16 +23,28 @@ function Gameboard() {
     // a method for getting the initial state of the board
     const getBoard = () => board;
 
+
+    // responsible for locating the selected cell
+    // and dropping the mark 
+    const dropMark = (row, column, mark) => {
+        
+        // locates the cell
+        // using the addMark method to change the 
+        // value inside Cell function
+        board[row][column].addMark(mark);
+
+        };
+
     // A method for printing the updated board 
     // after each player's turn 
     const printBoard = () => {
         const boardWithCellValues = board.map((row) => {
-            return row.map((cell) => cell.getValue())
+            return row.map((cell) => cell.getValue());
         });
         console.log( boardWithCellValues );
     };
 
-    return { getBoard, printBoard };
+    return { getBoard, dropMark, printBoard };
 }
 
 
@@ -71,7 +83,7 @@ function GameController(
         }
     ];
 
-    return { };
+    return { players };
 }
 
 
@@ -93,6 +105,10 @@ function renderGameOnScreen() {
     
     console.log(boardState.printBoard());
 
+    boardState.dropMark(1, 1, "X");
+    boardState.dropMark(2, 1, "O");
+    boardState.dropMark(0, 1, "X");
+    console.log( boardState.printBoard() );
 }
 
 
