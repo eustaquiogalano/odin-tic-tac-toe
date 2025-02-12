@@ -72,6 +72,9 @@ function GameController(
     playerX = "Player X",
     playerO = "PLayer O"
 ) {
+
+    const board = Gameboard();
+
     const players = [
         {
             name: playerX,
@@ -83,7 +86,36 @@ function GameController(
         }
     ];
 
-    return { players };
+    let activePlayer = players[0];
+
+    const getActivePlayer = () => activePlayer;
+
+    const switchActivePlayer = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    const printNewRound = () => {
+        board.printBoard();  // display the board to the console
+        console.log(`${getActivePlayer().name}'s turn.`);
+    };
+
+    const playRound = (row, column) => {
+        console.log(
+            `Dropping ${getActivePlayer().mark} mark..........`
+        );
+        
+        board.dropMark(row, column, getActivePlayer().mark);
+
+        switchActivePlayer();
+        printNewRound();
+    };
+
+
+    // once GameController gets invoked
+    // this will be the initial display
+    printNewRound();
+
+    return { getActivePlayer, playRound};
 }
 
 
@@ -95,20 +127,20 @@ function GameController(
 
 function renderGameOnScreen() {
 
-    const boardState = Gameboard()
+    const game = GameController();
+    
+    game.playRound(1, 1);
+    game.playRound(0, 0);
+    game.playRound(2, 2);
+    game.playRound(2, 0);
+    game.playRound(0, 1);
+    game.playRound(0, 2);
+    game.playRound(2, 1);
+    game.playRound(1, 0);
 
     // for now console is our UI
     // but once the script is good to go, we will transfer to 
     // the DOM
-
-    console.log( boardState.getBoard() );
-    
-    console.log(boardState.printBoard());
-
-    boardState.dropMark(1, 1, "X");
-    boardState.dropMark(2, 1, "O");
-    boardState.dropMark(0, 1, "X");
-    console.log( boardState.printBoard() );
 }
 
 
