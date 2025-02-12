@@ -94,22 +94,27 @@ function GameController(
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
+    // responsible for rendering the board
+    // to the console in every players turn 
     const printNewRound = () => {
         board.printBoard();  // display the board to the console
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
+    // responsible for playing every round
     const playRound = (row, column) => {
         console.log(
             `Dropping ${getActivePlayer().mark} mark..........`
         );
         
+        // drops the player mark to the selected cell
         board.dropMark(row, column, getActivePlayer().mark);
 
+        // switch player every turn
+        // then start new round
         switchActivePlayer();
         printNewRound();
     };
-
 
     // once GameController gets invoked
     // this will be the initial display
