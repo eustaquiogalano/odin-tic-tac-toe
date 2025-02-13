@@ -7,6 +7,8 @@
 
 function Gameboard() {
 
+    const gridCellContainer = document.querySelector("#grid-cell-container");
+
     // Tic Tac Toe is playable in a 3x3 grid.
     const row = 3;
     const column = 3;
@@ -38,9 +40,14 @@ function Gameboard() {
     // A method for printing the updated board 
     // after each player's turn 
     const printBoard = () => {
+        let generatedHTML = '';
         const boardWithCellValues = board.map((row) => {
-            return row.map((cell) => cell.getValue());
+            return row.map((cell) => {
+                generatedHTML += `<button>${cell.getValue()}</button>`;
+            });
         });
+
+        gridCellContainer.innerHTML = generatedHTML;
         console.log(boardWithCellValues);
     };
 
@@ -132,11 +139,11 @@ function GameController(
 // we will move the rendering on its own UI
 
 function renderGameOnScreen() {
-
     const game = GameController();
 
     game.playRound(1, 1);
-    game.playRound(1, 1);
+    game.playRound(1,2);
+    // gridCellContainer.textContent = "Here";
 
 }
 
