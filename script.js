@@ -5,9 +5,10 @@
 // and printing the board after each player's turn
 // on marking a cell.
 
-function Gameboard() {
+const gridCellContainer = document.querySelector("#grid-cell-container");
 
-    const gridCellContainer = document.querySelector("#grid-cell-container");
+const gameBoard = (function Gameboard() {
+
 
     // Tic Tac Toe is playable in a 3x3 grid.
     const row = 3;
@@ -52,7 +53,7 @@ function Gameboard() {
     };
 
     return { getBoard, dropMark, printBoard };
-}
+})();
 
 
 // THis function is responsible for each cell content
@@ -70,18 +71,14 @@ function Cell() {
     return { getValue, addMark };
 }
 
-
-
 // This function is responsible for the flow of the game.
 // rendering the updated board each turn
 // switch the player's turn
 
-function GameController(
+const gameController = (function (
     playerX = "Player X",
     playerO = "PLayer O"
 ) {
-
-    const board = Gameboard();
 
     const players = [
         {
@@ -105,7 +102,7 @@ function GameController(
     // responsible for rendering the board
     // to the console in every players turn 
     const printNewRound = () => {
-        board.printBoard();  // display the board to the console
+        gameBoard.printBoard();  // display the board to the console
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
@@ -116,7 +113,7 @@ function GameController(
         );
 
         // drops the player mark to the selected cell
-        board.dropMark(row, column, getActivePlayer().mark);
+        gameBoard.dropMark(row, column, getActivePlayer().mark);
 
         // switch player every turn
         // then start new round
@@ -129,24 +126,19 @@ function GameController(
     printNewRound();
 
     return { getActivePlayer, playRound };
-}
+})();
 
 
 
 // This function is responsible for rendering the game 
-// for now in the console
-// but once the script is all set
-// we will move the rendering on its own UI
+// in the DOM
 
-function renderGameOnScreen() {
-    const game = GameController();
+(function renderGameOnScreen() {
 
-    game.playRound(1, 1);
-    game.playRound(1,2);
+    gameController.playRound(1, 1);
+    gameController.playRound(1, 0);
     // gridCellContainer.textContent = "Here";
 
-}
+})();
 
 
-// initial render
-renderGameOnScreen();
