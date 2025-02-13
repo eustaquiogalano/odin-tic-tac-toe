@@ -27,13 +27,13 @@ function Gameboard() {
     // responsible for locating the selected cell
     // and dropping the mark 
     const dropMark = (row, column, mark) => {
-        
+
         // locates the cell
         // using the addMark method to change the 
         // value inside Cell function
         board[row][column].addMark(mark);
 
-        };
+    };
 
     // A method for printing the updated board 
     // after each player's turn 
@@ -41,7 +41,7 @@ function Gameboard() {
         const boardWithCellValues = board.map((row) => {
             return row.map((cell) => cell.getValue());
         });
-        console.log( boardWithCellValues );
+        console.log(boardWithCellValues);
     };
 
     return { getBoard, dropMark, printBoard };
@@ -66,7 +66,8 @@ function Cell() {
 
 
 // This function is responsible for the flow of the game.
-//  
+// rendering the updated board each turn
+// switch the player's turn
 
 function GameController(
     playerX = "Player X",
@@ -106,7 +107,7 @@ function GameController(
         console.log(
             `Dropping ${getActivePlayer().mark} mark..........`
         );
-        
+
         // drops the player mark to the selected cell
         board.dropMark(row, column, getActivePlayer().mark);
 
@@ -120,7 +121,7 @@ function GameController(
     // this will be the initial display
     printNewRound();
 
-    return { getActivePlayer, playRound};
+    return { getActivePlayer, playRound };
 }
 
 
@@ -133,19 +134,10 @@ function GameController(
 function renderGameOnScreen() {
 
     const game = GameController();
-    
-    game.playRound(1, 1);
-    game.playRound(0, 0);
-    game.playRound(2, 2);
-    game.playRound(2, 0);
-    game.playRound(0, 1);
-    game.playRound(0, 2);
-    game.playRound(2, 1);
-    game.playRound(1, 0);
 
-    // for now console is our UI
-    // but once the script is good to go, we will transfer to 
-    // the DOM
+    game.playRound(1, 1);
+    game.playRound(1, 1);
+
 }
 
 
