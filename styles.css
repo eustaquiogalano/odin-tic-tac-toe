@@ -76,7 +76,16 @@ main {
                 height: 100%;
                 width: 100%;
                 border: none;
-                cursor:cell;
+                cursor: cell;
+                font-size: 5rem;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            button:hover {
+                background-color: lightgray;
             }
         }
 
