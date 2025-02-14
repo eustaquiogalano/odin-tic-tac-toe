@@ -6,6 +6,7 @@
 // on marking a cell.
 
 const gridCellContainer = document.querySelector("#grid-cell-container");
+const buttonCells = document.querySelectorAll("#grid-cell-container button");
 
 const gameBoard = (function Gameboard() {
 
@@ -41,15 +42,16 @@ const gameBoard = (function Gameboard() {
     // A method for printing the updated board 
     // after each player's turn 
     const printBoard = () => {
-        let generatedHTML = '';
-        const boardWithCellValues = board.map((row) => {
-            return row.map((cell) => {
-                generatedHTML += `<button>${cell.getValue()}</button>`;
-            });
-        });
+        // let generatedHTML = '';
+        // const boardWithCellValues = board.map((row) => {
+        //     return row.map((cell) => {
+        //         generatedHTML += `<button class="asdf">${cell.getValue()}</button>`;
+        //     });
+        // });
 
-        gridCellContainer.innerHTML = generatedHTML;
-        console.log(boardWithCellValues);
+        // gridCellContainer.innerHTML = generatedHTML;
+        // console.log(boardWithCellValues);
+
     };
 
     return { getBoard, dropMark, printBoard };
@@ -135,8 +137,14 @@ const gameController = (function (
 
 (function renderGameOnScreen() {
 
-    gameController.playRound(1, 1);
-    gameController.playRound(1, 0);
+    // Once a cell was clicked the game starts 
+    gridCellContainer.addEventListener("click", (e) => {
+        const selectedButtonCell = e.target;
+        console.log( selectedButtonCell );
+        
+        // e.target.textContent = `${gameBoard.dropMark()}`; 
+        // playRound();
+    });
     // gridCellContainer.textContent = "Here";
 
 })();
