@@ -141,18 +141,22 @@ const gameController = (function (
     gridCellContainer.addEventListener("click", (e) => {
     
         // Get the ID of the selected cell
-        const selectedButtonCellID = e.target.id;
+        const selectedButtonCell = e.target;        
         
         // If ever the container 
         // was selected it will do nothing
-        if (selectedButtonCellID === "grid-cell-container") {
+        // or if the selected cell has already a value
+        // it wil also do nothing
+        if (selectedButtonCell.id === "grid-cell-container" ||
+            !(selectedButtonCell.textContent === "") 
+        ) {
             return;
         }
 
         // Array destructuring 
         // variable row and column will extract the last two 
         // digit from the ID which is the cell locator
-        [row, column] = selectedButtonCellID.split("-")[1].split('');        
+        [row, column] = selectedButtonCell.id.split("-")[1].split('');        
         
         // Update the text content of the selected cell 
         // depending on whose player's turn
