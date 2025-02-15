@@ -139,10 +139,16 @@ const gameController = (function (
 
     // Once a cell was clicked the game starts 
     gridCellContainer.addEventListener("click", (e) => {
-        
+    
         // Get the ID of the selected cell
         const selectedButtonCellID = e.target.id;
         
+        // If ever the container 
+        // was selected it will do nothing
+        if (selectedButtonCellID === "grid-cell-container") {
+            return;
+        }
+
         // Array destructuring 
         // variable row and column will extract the last two 
         // digit from the ID which is the cell locator
