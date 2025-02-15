@@ -1,12 +1,11 @@
+const gridCellContainer = document.querySelector("#grid-cell-container");
+
 // This function is responsible for the states of the board
 // also responsible for setting up the board at initial state
 // where no marks are placed yet, also responsible for
 // dropping or placing a mark on a cell
 // and printing the board after each player's turn
 // on marking a cell.
-
-const gridCellContainer = document.querySelector("#grid-cell-container");
-const buttonCells = document.querySelectorAll("#grid-cell-container button");
 
 const gameBoard = (function Gameboard() {
 
@@ -42,20 +41,19 @@ const gameBoard = (function Gameboard() {
     // A method for printing the updated board 
     // after each player's turn 
     const printBoard = () => {
-        // let generatedHTML = '';
-        // const boardWithCellValues = board.map((row) => {
-        //     return row.map((cell) => {
-        //         generatedHTML += `<button class="asdf">${cell.getValue()}</button>`;
-        //     });
-        // });
 
-        // gridCellContainer.innerHTML = generatedHTML;
-        // console.log(boardWithCellValues);
+        const boardWithCellValues = board.map((row) => {
+            return row.map((cell) => {
+                return cell.getValue();
+            });
+        });
 
+        console.log(boardWithCellValues);
     };
 
     return { getBoard, dropMark, printBoard };
 })();
+
 
 
 // THis function is responsible for each cell content
@@ -72,6 +70,8 @@ function Cell() {
 
     return { getValue, addMark };
 }
+
+
 
 // This function is responsible for the flow of the game.
 // rendering the updated board each turn
@@ -139,14 +139,24 @@ const gameController = (function (
 
     // Once a cell was clicked the game starts 
     gridCellContainer.addEventListener("click", (e) => {
-        const selectedButtonCell = e.target;
-        console.log( selectedButtonCell );
         
-        // e.target.textContent = `${gameBoard.dropMark()}`; 
-        // playRound();
+        // Get the ID of the selected cell
+        const selectedButtonCellID = e.target.id;
+        
+        // Array destructuring 
+        // variable row and column will extract the last two 
+        // digit from the ID which is the cell locator
+        [row, column] = selectedButtonCellID.split("-")[1].split('');        
+        
+        // Update the text content of the selected cell 
+        // depending on whose player's turn
+        // either X or O
+        e.target.textContent = `${gameController.getActivePlayer().mark}`; 
+        
+        // Play the round 
+        // using the row and column as the locators
+        gameController.playRound(row, column)
     });
-    // gridCellContainer.textContent = "Here";
-
 })();
 
 
