@@ -9,19 +9,24 @@ const gridCellContainer = document.querySelector("#grid-cell-container");
 
 const gameBoard = (function Gameboard() {
 
-
     // Tic Tac Toe is playable in a 3x3 grid.
     const row = 3;
     const column = 3;
     const board = [];
 
-    // This will create a 2d array for the 3x3 grid cell
-    for (let r = 0; r < row; r++) {
-        board[r] = [];
-        for (let c = 0; c < column; c++) {
-            board[r].push(Cell());
+    const resetEverything = () => {
+
+        // This will create a 2d array for the 3x3 grid cell
+        for (let r = 0; r < row; r++) {
+            board[r] = [];
+            for (let c = 0; c < column; c++) {
+                board[r].push(Cell());
+            }
         }
-    }
+    };
+
+    // sets everything to initial state
+    resetEverything();
 
     // a method for getting the initial state of the board
     const getBoard = () => board;
@@ -51,7 +56,7 @@ const gameBoard = (function Gameboard() {
         console.log(boardWithCellValues);
     };
 
-    return { getBoard, dropMark, printBoard };
+    return { getBoard, dropMark, printBoard, resetEverything };
 })();
 
 
@@ -84,7 +89,7 @@ const gameController = (function (
 ) {
 
     const winningCombinations = [
-        ["00", "11","22"], ["02", "11", "20"],  // Diagonals
+        ["00", "11", "22"], ["02", "11", "20"],  // Diagonals
         ["00", "10", "20"], ["01", "11", "21"], ["02", "12", "22"],  // Verticals
         ["00", "01", "02"], ["10", "11", "12"], ["20", "21", "22"]  // Horizontals 
     ];
@@ -93,7 +98,7 @@ const gameController = (function (
         {
             name: playerX,
             mark: "X",
-            selections: [], 
+            selections: [],
         },
         {
             name: playerO,
@@ -119,29 +124,28 @@ const gameController = (function (
 
 
     const checkWinner = (selectedCellID) => {
-        
+
         // add the ID of the selected button cell
         // to the corresponding player's selections array  
         getActivePlayer().selections.push(selectedCellID);
-        
 
-        
+        // check the selected button cells of each players each round
+        // to verify if we have a winner
         for (let i = 0; i < winningCombinations.length; i++) {
             if (
                 getActivePlayer().selections.includes(winningCombinations[i][0]) &&
-                getActivePlayer().selections.includes(winningCombinations[i][1]) &&      
+                getActivePlayer().selections.includes(winningCombinations[i][1]) &&
                 getActivePlayer().selections.includes(winningCombinations[i][2])
             ) {
                 console.log(`Winner ${getActivePlayer().name}`);
-                return getActivePlayer();
             } else {
                 console.log("not yer");
-                
+
             }
-        }      
-       
-        
-    };  
+        }
+
+
+    };
 
     // responsible for playing every round
     const playRound = (row, column) => {
@@ -151,7 +155,7 @@ const gameController = (function (
 
         // drops the player mark to the selected cell
         gameBoard.dropMark(row, column, getActivePlayer().mark);
-        
+
         switchActivePlayer();   // switch player every turn
         printNewRound();  // then start new round
     };
@@ -172,16 +176,16 @@ const gameController = (function (
 
     // Once a cell was clicked the game starts 
     gridCellContainer.addEventListener("click", (e) => {
-    
+
         // Get the ID of the selected cell
-        const selectedButtonCell = e.target;        
-        
+        const selectedButtonCell = e.target;
+
         // If ever the container 
         // was selected it will do nothing
         // or if the selected cell has already a value
         // it wil also do nothing
         if (selectedButtonCell.id === "grid-cell-container" ||
-            !(selectedButtonCell.textContent === "") 
+            !(selectedButtonCell.textContent === "")
         ) {
             return;
         }
@@ -189,17 +193,17 @@ const gameController = (function (
         // Array destructuring 
         // variable row and column will extract the last two 
         // digit from the ID which is the cell locator
-        [row, column] = selectedButtonCell.id.split("-")[1].split('');        
-        
+        [row, column] = selectedButtonCell.id.split("-")[1].split('');
+
         // Before playing a round check first for a winner
         const winner = gameController.checkWinner(selectedButtonCell.id.split("-")[1]);
-        console.log(winner);
-        
+        console.log("winner", winner);
+
         // Update the text content of the selected cell 
         // depending on whose player's turn
         // either X or O
-        e.target.textContent = `${gameController.getActivePlayer().mark}`; 
-        
+        e.target.textContent = `${gameController.getActivePlayer().mark}`;
+
         // Play the round 
         // using the row and column as the locators
         gameController.playRound(row, column)
