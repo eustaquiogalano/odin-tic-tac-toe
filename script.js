@@ -1,4 +1,6 @@
 const gridCellContainer = document.querySelector("#grid-cell-container");
+const restartGameButton = document.querySelector("#restart");
+const listOfButtonCells = document.querySelectorAll("#grid-cell-container button");
 
 // This function is responsible for the states of the board
 // also responsible for setting up the board at initial state
@@ -137,14 +139,22 @@ const gameController = (function (
                 getActivePlayer().selections.includes(winningCombinations[i][1]) &&
                 getActivePlayer().selections.includes(winningCombinations[i][2])
             ) {
+                // if selections matches any of the winning combinations
+                // do the things below
+                // Declare winner in console
                 console.log(`Winner ${getActivePlayer().name}`);
-            } else {
-                console.log("not yer");
 
+                // disable button cells to stop the game
+                listOfButtonCells.forEach((cell) => {
+                    cell.setAttribute("disabled", "true");
+                });
+
+                // reset the selections of each player
+                players[0].selections = [];
+                players[1].selections = [];
+                
             }
         }
-
-
     };
 
     // responsible for playing every round
@@ -197,7 +207,6 @@ const gameController = (function (
 
         // Before playing a round check first for a winner
         const winner = gameController.checkWinner(selectedButtonCell.id.split("-")[1]);
-        console.log("winner", winner);
 
         // Update the text content of the selected cell 
         // depending on whose player's turn
@@ -207,6 +216,18 @@ const gameController = (function (
         // Play the round 
         // using the row and column as the locators
         gameController.playRound(row, column)
+    });
+
+    // reset button
+    // resets the game to its original state
+    restartGameButton.addEventListener("click", () => {
+        gameBoard.resetEverything();
+        gameBoard.printBoard();
+        
+        listOfButtonCells.forEach((cell) => {
+            cell.textContent = "";
+            cell.removeAttribute("disabled");
+        });
     });
 })();
 
