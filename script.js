@@ -74,22 +74,31 @@ function Cell() {
 
 
 // This function is responsible for the flow of the game.
-// rendering the updated board each turn
-// switch the player's turn
+//  - rendering the updated board each turn
+//  - switch the player's turn
+//  - check for winner
 
 const gameController = (function (
     playerX = "Player X",
     playerO = "PLayer O"
 ) {
 
+    const winningCombinations = [
+        ["00", "11","22"], ["02", "11", "20"],  // Diagonals
+        ["00", "10", "20"], ["01", "11", "21"], ["02", "12", "22"],  // Verticals
+        ["00", "01", "02"], ["10", "11", "12"], ["20", "21", "22"]  // Horizontals 
+    ];
+
     const players = [
         {
             name: playerX,
-            mark: "X"
+            mark: "X",
+            selections: [], 
         },
         {
             name: playerO,
-            mark: "O"
+            mark: "O",
+            selections: [],
         }
     ];
 
@@ -108,6 +117,32 @@ const gameController = (function (
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
+
+    const checkWinner = (selectedCellID) => {
+        
+        // add the ID of the selected button cell
+        // to the corresponding player's selections array  
+        getActivePlayer().selections.push(selectedCellID);
+        
+
+        
+        for (let i = 0; i < winningCombinations.length; i++) {
+            if (
+                getActivePlayer().selections.includes(winningCombinations[i][0]) &&
+                getActivePlayer().selections.includes(winningCombinations[i][1]) &&      
+                getActivePlayer().selections.includes(winningCombinations[i][2])
+            ) {
+                console.log(`Winner ${getActivePlayer().name}`);
+                return getActivePlayer();
+            } else {
+                console.log("not yer");
+                
+            }
+        }      
+       
+        
+    };  
+
     // responsible for playing every round
     const playRound = (row, column) => {
         console.log(
@@ -116,18 +151,16 @@ const gameController = (function (
 
         // drops the player mark to the selected cell
         gameBoard.dropMark(row, column, getActivePlayer().mark);
-
-        // switch player every turn
-        // then start new round
-        switchActivePlayer();
-        printNewRound();
+        
+        switchActivePlayer();   // switch player every turn
+        printNewRound();  // then start new round
     };
 
     // once GameController gets invoked
     // this will be the initial display
     printNewRound();
 
-    return { getActivePlayer, playRound };
+    return { getActivePlayer, playRound, checkWinner };
 })();
 
 
@@ -157,6 +190,10 @@ const gameController = (function (
         // variable row and column will extract the last two 
         // digit from the ID which is the cell locator
         [row, column] = selectedButtonCell.id.split("-")[1].split('');        
+        
+        // Before playing a round check first for a winner
+        const winner = gameController.checkWinner(selectedButtonCell.id.split("-")[1]);
+        console.log(winner);
         
         // Update the text content of the selected cell 
         // depending on whose player's turn
