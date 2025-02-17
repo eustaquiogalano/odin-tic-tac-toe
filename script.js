@@ -81,9 +81,10 @@ function Cell() {
 
 
 // This function is responsible for the flow of the game.
-//  - rendering the updated board each turn
-//  - switch the player's turn
-//  - check for winner
+// - rendering the updated board each turn
+// - switch the player's turn
+// - check for winner
+// - render score 
 
 const gameController = (function (
     playerX = "Player X",
@@ -115,6 +116,13 @@ const gameController = (function (
 
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    // Once invoked this will reset the selections 
+    // of each player 
+    const resetSelection = () => {
+        players[0].selections = [];
+        players[1].selections = [];
     };
 
     // responsible for rendering the board
@@ -173,7 +181,7 @@ const gameController = (function (
     // this will be the initial display
     printNewRound();
 
-    return { getActivePlayer, playRound, checkWinner, players };
+    return { getActivePlayer, playRound, checkWinner, resetSelection };
 })();
 
 
@@ -223,9 +231,8 @@ const gameController = (function (
         gameBoard.resetEverything();
         gameBoard.printBoard();
 
-         // reset the selections of each player
-        gameController.players[0].selections = [];
-        gameController.players[1].selections = [];
+        // reset the selections of each player
+        gameController.resetSelection();
 
         listOfButtonCells.forEach((cell) => {
             cell.textContent = "";
