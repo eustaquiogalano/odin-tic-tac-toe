@@ -179,6 +179,11 @@ const gameController = (function () {
                 // update score of the winner
                 getActivePlayer().score++;
 
+                // display the score to the DOM
+                const playerXScore = document.querySelector("#x-score-display");
+                const playerOScore = document.querySelector("#o-score-display");
+                getScore(playerXScore, playerOScore);
+
                 // disable button cells to stop the game
                 listOfButtonCells.forEach((cell) => {
                     cell.setAttribute("disabled", "true");
