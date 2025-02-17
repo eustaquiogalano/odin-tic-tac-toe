@@ -16,6 +16,7 @@ const gameBoard = (function Gameboard() {
     const column = 3;
     const board = [];
 
+    // once invoked this will reset the board to its initial state
     const resetEverything = () => {
 
         // This will create a 2d array for the 3x3 grid cell
@@ -89,10 +90,7 @@ function Cell() {
 // - display new round 
 // - initiate the game  
 
-const gameController = (function (
-    playerX = "Player X",
-    playerO = "PLayer O"
-) {
+const gameController = (function () {
 
     const winningCombinations = [
         ["00", "11", "22"], ["02", "11", "20"],  // Diagonals
@@ -102,14 +100,16 @@ const gameController = (function (
 
     const players = [
         {
-            name: playerX,
+            name: "Player X",
             mark: "X",
             selections: [],
+            score: 0,
         },
         {
-            name: playerO,
+            name: "PLayer O",
             mark: "O",
             selections: [],
+            score: 0,
         }
     ];
 
@@ -160,6 +160,9 @@ const gameController = (function (
 
                 // Declare winner in console
                 console.log(`Winner ${getActivePlayer().name}`);
+
+                // update score of the winner
+                getActivePlayer().score++;
 
                 // disable button cells to stop the game
                 listOfButtonCells.forEach((cell) => {
