@@ -80,11 +80,14 @@ function Cell() {
 
 
 
-// This function is responsible for the flow of the game.
+// This module is responsible for the flow of the game.
 // - rendering the updated board each turn
 // - switch the player's turn
 // - check for winner
-// - render score 
+// - get the active player
+// - reset the selected cells of each player
+// - display new round 
+// - initiate the game  
 
 const gameController = (function (
     playerX = "Player X",
@@ -110,29 +113,33 @@ const gameController = (function (
         }
     ];
 
+    // This will set the initial active player
     let activePlayer = players[0];
 
+    // Once invoked it will return the current playing player
     const getActivePlayer = () => activePlayer;
 
+    // Once invoked it will switch the 
+    // current playing player to the other player 
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
-    // Once invoked this will reset the selections 
-    // of each player 
+    // Once invoked this will reset the 
+    // selections of each player 
     const resetSelection = () => {
         players[0].selections = [];
         players[1].selections = [];
     };
 
-    // responsible for rendering the board
-    // to the console in every players turn 
+    // Once invoked it will display the board
+    // and the name of the playing player
     const printNewRound = () => {
         gameBoard.printBoard();  // display the board to the console
-        console.log(`${getActivePlayer().name}'s turn.`);
+        console.log(`${getActivePlayer().name}'s turn.`); // display players name
     };
 
-
+    // Once invoked it will check for a winner
     const checkWinner = (selectedCellID) => {
 
         // add the ID of the selected button cell
@@ -162,11 +169,8 @@ const gameController = (function (
         }
     };
 
-    // responsible for playing every round
+    // Once invoked it will initiate a round
     const playRound = (row, column) => {
-        console.log(
-            `Dropping ${getActivePlayer().mark} mark..........`
-        );
 
         // drops the player mark to the selected cell
         gameBoard.dropMark(row, column, getActivePlayer().mark);
@@ -177,10 +181,10 @@ const gameController = (function (
         printNewRound();  // then start new round
     };
 
-    // once GameController gets invoked
-    // this will be the initial display
+    // This will be the initial round of the game
     printNewRound();
 
+    // returning methods
     return { getActivePlayer, playRound, checkWinner, resetSelection };
 })();
 
