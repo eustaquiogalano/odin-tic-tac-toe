@@ -140,7 +140,9 @@ const gameController = (function (
                 getActivePlayer().selections.includes(winningCombinations[i][2])
             ) {
                 // if selections matches any of the winning combinations
+                // we have a winner
                 // do the things below
+
                 // Declare winner in console
                 console.log(`Winner ${getActivePlayer().name}`);
 
@@ -148,11 +150,6 @@ const gameController = (function (
                 listOfButtonCells.forEach((cell) => {
                     cell.setAttribute("disabled", "true");
                 });
-
-                // reset the selections of each player
-                players[0].selections = [];
-                players[1].selections = [];
-                
             }
         }
     };
@@ -166,7 +163,9 @@ const gameController = (function (
         // drops the player mark to the selected cell
         gameBoard.dropMark(row, column, getActivePlayer().mark);
 
-        switchActivePlayer();   // switch player every turn
+        switchActivePlayer();   // switch player's turn
+        // update the mark to drop
+        document.querySelector("#player-container span").textContent = `${getActivePlayer().mark}`;
         printNewRound();  // then start new round
     };
 
@@ -174,7 +173,7 @@ const gameController = (function (
     // this will be the initial display
     printNewRound();
 
-    return { getActivePlayer, playRound, checkWinner };
+    return { getActivePlayer, playRound, checkWinner, players };
 })();
 
 
@@ -223,7 +222,11 @@ const gameController = (function (
     restartGameButton.addEventListener("click", () => {
         gameBoard.resetEverything();
         gameBoard.printBoard();
-        
+
+         // reset the selections of each player
+        gameController.players[0].selections = [];
+        gameController.players[1].selections = [];
+
         listOfButtonCells.forEach((cell) => {
             cell.textContent = "";
             cell.removeAttribute("disabled");
