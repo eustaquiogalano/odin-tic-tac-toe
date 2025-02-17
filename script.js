@@ -125,6 +125,21 @@ const gameController = (function () {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
+    const setPlayerName = (xName, oName) => {
+        
+        const playerXName = document.querySelector("#x-name");
+        playerXName.textContent = xName ||`${players[0].name}`;
+
+        const playerOName = document.querySelector("#o-name");
+        playerOName.textContent = oName || `${players[1].name}`;
+    };
+
+    const getScore = (xScore, oScore) => {
+        xScore.textContent = `${players[0].score}`;
+        oScore.textContent = `${players[1].score}`;
+
+    };
+
     // Once invoked this will reset the 
     // selections of each player 
     const resetSelection = () => {
@@ -182,13 +197,21 @@ const gameController = (function () {
         // update the mark to drop
         document.querySelector("#player-container span").textContent = `${getActivePlayer().mark}`;
         printNewRound();  // then start new round
+        setPlayerName();
     };
 
     // This will be the initial round of the game
     printNewRound();
+    setPlayerName();
 
     // returning methods
-    return { getActivePlayer, playRound, checkWinner, resetSelection };
+    return { 
+        getActivePlayer, 
+        playRound, 
+        checkWinner, 
+        resetSelection, 
+        getScore
+    };
 })();
 
 
@@ -245,7 +268,7 @@ const gameController = (function () {
             cell.textContent = "";
             cell.removeAttribute("disabled");
         });
-    });
+    });    
 })();
 
 
