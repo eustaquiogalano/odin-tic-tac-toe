@@ -125,8 +125,16 @@ const gameController = (function () {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
-    const setPlayerName = (xName, oName) => {
-        
+    // Once invoked it will ask for the players name
+    // and set it as the player's name 
+    const setPlayerName = () => {
+
+        // asks for each players name
+        const xName = prompt("Player X name:");
+        const oName = prompt("Player O name:");
+
+        // set names based on what the user provide
+        // and display the name on the DOM  
         const playerXName = document.querySelector("#x-name");
         playerXName.textContent = xName ||`${players[0].name}`;
 
@@ -202,12 +210,11 @@ const gameController = (function () {
         // update the mark to drop
         document.querySelector("#player-container span").textContent = `${getActivePlayer().mark}`;
         printNewRound();  // then start new round
-        setPlayerName();
     };
 
     // This will be the initial round of the game
-    printNewRound();
-    setPlayerName();
+    printNewRound();  // display new round
+    setPlayerName();  // ask for each players name
 
     // returning methods
     return { 
