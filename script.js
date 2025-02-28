@@ -32,7 +32,7 @@ const listOfButtonCells = document.querySelectorAll("#grid-cell-container button
         const [row, column] = selectedButtonCell.id.split("-")[1].split('');
 
         // Before playing a round check first for a winner
-        const winner = gameController.checkWinner(selectedButtonCell.id.split("-")[1]);
+        const winner = gameController.checkWinner(selectedButtonCell.id.split("-")[1], listOfButtonCells);
 
         // Update the text content of the selected cell 
         // depending on whose player's turn

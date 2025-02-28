@@ -82,7 +82,7 @@ const gameController = (function () {
     };
 
     // Once invoked it will check for a winner
-    const checkWinner = (selectedCellID) => {
+    const checkWinner = (selectedCellID, listOfButtonCells) => {
 
         // add the ID of the selected button cell
         // to the corresponding player's selections array  
